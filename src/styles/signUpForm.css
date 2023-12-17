@@ -1,0 +1,21 @@
+/* Form styling */
+.form-container {
+    width: 445px !important;
+}
+
+/* Form Validation Error Message styling */
+.validation-error-message {
+    color: red !important;
+    font-size: small;
+    padding: 2px 4px;
+    margin-bottom: 14px;
+}
+
+.password-requirements-text {
+    color: rgb(90, 90, 90);
+    padding: 2px 6px;
+}
+
+.span-btn-spacer {
+    color: gray;
+}
