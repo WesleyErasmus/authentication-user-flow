@@ -26,9 +26,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase analytics
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const analytics = getAnalytics(app);
 // Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
+
+// **NOTE** Exporting the function call into my signUp component. Type error displayed without the export
+export const auth = getAuth(app);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

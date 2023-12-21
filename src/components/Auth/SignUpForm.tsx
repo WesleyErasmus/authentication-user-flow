@@ -1,9 +1,16 @@
+// Sign up form stylesheet
 import "../../styles/signUpForm.css";
 // Formik Import
 import { Formik, Field, Form, ErrorMessage } from "formik";
-
 // Yup Import
 import * as Yup from "yup";
+// Firebase Import
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../main";
+// Sign-up Modal Import
+import SignUpModal from "../SignUpModal";
+// React state Hook
+import { useState } from "react";
 
 /* FormValues is a custom type created to define the structure of an object representing form values. See doc below on representing data through an interface:
 https://www.typescriptlang.org/docs/handbook/2/objects.html */
@@ -26,11 +33,6 @@ const initialValues: FormValues = {
   surname: "",
   email: "",
   password: "",
-};
-
-// Form Submit Handler
-const handleSubmit = (values: FormValues) => {
-  console.log(values);
 };
 
 // Yup validation schema / Error Messages
@@ -69,6 +71,56 @@ const SignUpForm = (props: {
   submitButton: string;
   redirect: string;
 }) => {
+  // State to manage modal visibility
+  const [showModal, setShowModal] = useState(false);
+  // User Sign-up error message state
+  const [errorMessage, setErrorMessage] = useState("");
+  // User Sign-up success message
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // Open modal function (used on form submit to display sign-up success or error message)
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  /* Form Submit Handler (try...catch Promise method)
+   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch */
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      // Extract the email and password from the form values
+      const { email, password } = values;
+      // Create a new user in Firebase with the email and password
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Handle successful user creation if the user is created successfully
+      console.log("User Successfully created: ", response.user);
+      // Triggers success modal
+      setSuccessMessage("Your account has been successfully created.");
+      // Clear previous error messages for success message
+      setErrorMessage("");
+      // Callback: Opens sign-up modal component with success message
+      openModal();
+      // GPT fix: using the unknown type to typescript unknown variable error.
+    } catch (error: unknown) {
+      // Handle errors
+      console.error("Error creating user: ", error);
+      // Part of the GPT typescript error fix. Using the instance of operator:
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
+      if (error instanceof Error) {
+        // Show the specific error message from Firebase
+        setErrorMessage(error.message);
+      } else {
+        // Fallback message for non-Error types
+        setErrorMessage("An unknown error occurred. Please try again");
+      }
+      // Callback: Opens sign-up modal component with failure message
+      openModal();
+    }
+  };
+
   return (
     // Formik opening tag including the state of the form input fields, the form handle submit function, and the Yup validation schema
     <Formik
@@ -76,9 +128,9 @@ const SignUpForm = (props: {
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
     >
-      <div className="container mt-5 form-container">
+      <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col">
+          <div className="col-12 col-md-8 col-lg-6" style={{ width: "35rem" }}>
             <div className="card">
               {/* Form Title */}
               <h2 className="text-center mt-5">{props.formTitle}</h2>
@@ -153,7 +205,7 @@ const SignUpForm = (props: {
                     </p>
                   </div>
                   {/* Form button group */}
-                  <div className="d-grid gap-2 col-8 mx-auto text-center">
+                  <div className="d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center">
                     {/* Create account button */}
                     <button type="submit" className="btn btn-primary mt-4">
                       {props.submitButton}
@@ -161,12 +213,25 @@ const SignUpForm = (props: {
                     <span className="span-btn-spacer">Or</span>
                   </div>
                 </Form>
-                <div className="d-grid gap-2 col-8 mx-auto text-center mt-2">
+                <div className="d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center mt-2">
                   {/* Login page link */}
                   <button className="btn btn-success mb-4">
                     {props.redirect}
                   </button>
                 </div>
+                {/* Managing visibility of the modal state using shorthand conditional rendering. This changes the shoModal state from its default false state to true displaying the signUpModal component.  */}
+                {showModal && (
+                  <SignUpModal
+                    signUpValidationMessage={
+                      errorMessage ? errorMessage : successMessage
+                    }
+                    closeModal={() => setShowModal(false)}
+                    modalTitle={
+                      errorMessage ? "Sign Up Failed" : "Sign Up Success"
+                    }
+                    redirectLink={"Login"}
+                  />
+                )}
               </div>
             </div>
           </div>
