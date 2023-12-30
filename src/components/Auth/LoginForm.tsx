@@ -1,28 +1,23 @@
 // Sign up form stylesheet
-import "../../styles/signUpForm.css";
+import "../../styles/loginForm.css";
 // Formik Import
 import { Formik, Field, Form, ErrorMessage } from "formik";
 // Yup Import
 import * as Yup from "yup";
 // Firebase Import
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../main";
 // Sign-up Modal Import
-import SignUpModal from "../SignUpModal";
+import SignUpModal from "../SignUpModal"; // ********MODAL NEEDS A NEW NAME OR NEED TO CREATE A NEW MODAL
 // React state Hook
 import { useState } from "react";
 // Importing useNavigate hook
 import { useNavigate } from "react-router-dom";
 // Importing Login page const path
-import { loginPage } from "../../routes";
+import { signUpPage } from "../../routes";
 
-/* FormValues is a custom type created to define the structure of an object representing form values. See doc below on representing data through an interface:
-https://www.typescriptlang.org/docs/handbook/2/objects.html */
-
-// Define the shape and validation of the form values
+// Defines the shape and validation of the form values
 interface FormValues {
-  firstName: string;
-  surname: string;
   email: string;
   password: string;
 }
@@ -33,26 +28,12 @@ It is declared to adhere to the FormValues type structure
  👇 */
 const initialValues: FormValues = {
   // Define the initial values of the form fields as empty strings
-  firstName: "",
-  surname: "",
   email: "",
   password: "",
 };
 
 // Yup validation schema / Error Messages
 const validationSchema = Yup.object({
-  firstName: Yup.string()
-    .max(
-      20,
-      "You have exceeded the maximum number of characters. Please use 20 characters or less."
-    )
-    .required("First name is required"),
-  surname: Yup.string()
-    .max(
-      30,
-      "You have exceeded the maximum number of characters. Please use 30 characters or less."
-    )
-    .required("Surname is required"),
   email: Yup.string()
     .email("Please use a valid email address")
     .required("Email address is required"),
@@ -66,10 +47,8 @@ const validationSchema = Yup.object({
 });
 
 // Sign-Up Form Object Function
-const SignUpForm = (props: {
+const LoginForm = (props: {
   formTitle: string;
-  firstName: string;
-  surname: string;
   email: string;
   password: string;
   submitButton: string;
@@ -97,32 +76,26 @@ const SignUpForm = (props: {
     setShowPassword(!showPassword);
   };
 
-  /* Form Submit Handler (try...catch Promise method)
-   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch */
+  // Form Submit Handler
   const handleSubmit = async (values: FormValues) => {
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
       // Create a new user in Firebase with the email and password
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const response = await signInWithEmailAndPassword(auth, email, password);
       // Handle successful user creation if the user is created successfully
-      console.log("User Successfully created: ", response.user);
+      console.log("User Successfully Logged In: ", response.user);
       // Triggers success modal
-      setSuccessMessage("Your account has been successfully created.");
+      setSuccessMessage(
+        "You have successfully logged in - this will just redirect the user to the update profile page."
+      );
       // Clear previous error messages for success message
       setErrorMessage("");
       // Callback: Opens sign-up modal component with success message
       openModal();
-      // GPT fix: using the unknown type to typescript unknown variable error.
     } catch (error: unknown) {
       // Handle errors
-      console.error("Error creating user: ", error);
-      // Part of the GPT typescript error fix. Using the instance of operator:
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
+      console.error("Error Logging In: ", error);
       if (error instanceof Error) {
         // Show the specific error message from Firebase
         setErrorMessage(error.message);
@@ -149,39 +122,8 @@ const SignUpForm = (props: {
               {/* Form Title */}
               <h2 className="text-center mt-5">{props.formTitle}</h2>
               <div className="card-body py-md-4">
-                {/* Sign-Up form using Formik */}
+                {/* Login form using Formik */}
                 <Form>
-                  {/* First name / Surname row container */}
-                  <div className="row g-3">
-                    <div className="col">
-                      {/* First name input */}
-                      <Field
-                        className="form-control"
-                        name="firstName"
-                        type="text"
-                        id="firstName"
-                        placeholder={props.firstName}
-                      />
-                      {/* Formik/Yup validation error message */}
-                      <p className="validation-error-message">
-                        <ErrorMessage name="firstName" />
-                      </p>
-                    </div>
-                    <div className="col">
-                      {/* Surname input */}
-                      <Field
-                        className="form-control"
-                        name="surname"
-                        type="text"
-                        id="surname"
-                        placeholder={props.surname}
-                      />
-                      {/* Formik/Yup validation error message */}
-                      <p className="validation-error-message">
-                        <ErrorMessage name="surname" />
-                      </p>
-                    </div>
-                  </div>
                   <div className="col">
                     {/* Email input */}
                     <Field
@@ -220,14 +162,6 @@ const SignUpForm = (props: {
                       />{" "}
                       <span>{showPassword ? "Hide" : "Show"} Password</span>
                     </label>
-                    {/* Password requirements text */}
-                    <p className="password-requirements-text">
-                      <small>
-                        Password must be at least 8 characters long and include
-                        uppercase and lowercase letters, a number, and a special
-                        character.
-                      </small>
-                    </p>
                   </div>
                   {/* Form button group */}
                   <div className="d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center">
@@ -239,10 +173,10 @@ const SignUpForm = (props: {
                   </div>
                 </Form>
                 <div className="d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center mt-2">
-                  {/* Login page link using navigate react-router-dom hook */}
+                  {/* Login page link */}
                   <button
                     className="btn btn-success mb-4"
-                    onClick={() => navigate(loginPage)}
+                    onClick={() => navigate(signUpPage)}
                   >
                     {props.redirect}
                   </button>
@@ -254,9 +188,7 @@ const SignUpForm = (props: {
                       errorMessage ? errorMessage : successMessage
                     }
                     closeModal={() => setShowModal(false)}
-                    modalTitle={
-                      errorMessage ? "Sign Up Failed" : "Sign Up Success"
-                    }
+                    modalTitle={errorMessage ? "Login Failed" : "LoginSuccess"}
                     redirectLink={"Login"}
                   />
                 )}
@@ -269,4 +201,4 @@ const SignUpForm = (props: {
   );
 };
 
-export default SignUpForm;
+export default LoginForm;

@@ -1,15 +1,16 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+// Router import
+import routes from "./routes";
 
 // Bootstrap Import
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -27,14 +28,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase analytics
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 // Initialize Firebase Authentication and get a reference to the service
 
 // **NOTE** Exporting the function call into my signUp component. Type error displayed without the export
 export const auth = getAuth(app);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(routes);

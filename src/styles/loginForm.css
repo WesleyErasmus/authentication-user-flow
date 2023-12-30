@@ -1,0 +1,16 @@
+/* Form Validation Error Message styling */
+.validation-error-message {
+    color: red !important;
+    font-size: small;
+    padding: 2px 4px;
+    margin-bottom: 14px;
+}
+
+.show-password-checkbox {
+    padding-left: 7px;
+}
+
+/* Text between SignUp btn and Login btn */
+.span-btn-spacer {
+    color: gray;
+}
