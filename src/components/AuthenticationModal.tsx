@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginPage, signUpPage } from "../routes";
 
-const SignUpModal = (props: {
+const AuthenticationModal = (props: {
   modalTitle: string;
   signUpValidationMessage: string;
   redirectLink: string;
@@ -15,6 +17,9 @@ const SignUpModal = (props: {
     // Call the closeModal function passed via props
     props.closeModal();
   };
+
+  // React-router-dom use navigate hook
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -41,18 +46,29 @@ const SignUpModal = (props: {
                 <p>{props.signUpValidationMessage}</p>
               </div>
               <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
-                {/* Modal login or try again redirect button */}
-                <button type="button" className="btn btn-primary">
-                  {props.redirectLink}
-                </button>
+                <div className="d-flex gap-2 mx-auto text-center">
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={closeModal}
+                    >
+                      Close
+                    </button>
+                  </div>
+                  <div>
+                    {/* Modal login or try again redirect button */}
+                    <button type="button" className="btn btn-primary"
+                    onClick={() => navigate(loginPage)}>
+                      {props.redirectLink}
+                    </button>
+                  </div>
+                </div>
               </div>
+              <p className="text-center"
+              onClick={() => navigate(signUpPage)}>
+                <a href="">New User? Go back to Sign-up Page</a>
+              </p>
             </div>
           </div>
         </div>
@@ -65,4 +81,4 @@ const SignUpModal = (props: {
   );
 };
 
-export default SignUpModal;
+export default AuthenticationModal;

@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom/client'
+import ReactDOM from "react-dom/client";
 // Router import
 import routes from "./routes";
 
@@ -34,4 +34,4 @@ const app = initializeApp(firebaseConfig);
 // **NOTE** Exporting the function call into my signUp component. Type error displayed without the export
 export const auth = getAuth(app);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(routes);
+ReactDOM.createRoot(document.getElementById("root")!).render(routes);
