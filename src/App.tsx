@@ -1,12 +1,12 @@
-import './App.css'
+import "./styles/App.css";
+import SignUp from "./pages/Auth/SignUp";
 
 function App() {
-
   return (
     <>
-     <h1>Authentication User Flow</h1>
+      <SignUp />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
