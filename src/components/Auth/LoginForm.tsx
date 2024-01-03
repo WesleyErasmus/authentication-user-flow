@@ -29,6 +29,17 @@ interface FormValues {
   password: string;
 }
 
+// Define the shape of the user error messages keys
+interface ErrorMessages {
+  'auth/user-not-found': string;
+  'auth/user-disabled': string;
+  'auth/internal-error': string;
+  'auth/network-request-failed': string;
+  'auth/invalid-credential': string;
+
+  [key: string]: string;
+}
+
 // Initial values for the form
 const initialValues: FormValues = {
   /* This variable will store the initial values for a form. It is declared to adhere to the FormValues type structure
@@ -82,6 +93,28 @@ const LoginForm = (props: {
     setShowPassword(!showPassword);
   };
 
+  // Error messages displayed to the user
+  const errorMessages: ErrorMessages = {
+    'auth/user-not-found':
+      'The email address you entered is not registered. Please check the email address or create an account.',
+    'auth/user-disabled':
+      'This account has been disabled. Please contact support for assistance.',
+    'auth/internal-error':
+      'An internal error occurred. Please try again later.',
+    'auth/network-request-failed':
+      'Network error occurred. Please check your connection and try again.',
+    'auth/invalid-credential':
+      'The username or password you entered is incorrect. Please try again.',
+  };
+
+  // Function to display the error messages to the user
+  const displayUserErrors = (errorCode: string) => {
+    return (
+      errorMessages[errorCode] ||
+      'An unknown error occurred. Please try again later.'
+    );
+  };
+
   // Form Submit Handler
   const handleSubmit = async (values: FormValues) => {
     try {
@@ -91,9 +124,9 @@ const LoginForm = (props: {
       const response = await signInWithEmailAndPassword(auth, email, password);
       // Handle successful user creation if the user is created successfully
       console.log('User Successfully Logged In: ', response.user);
-      // Triggers success modal
+      // Sets success message state
       setSuccessMessage(
-        'You have successfully logged in - this will just redirect the user to the update profile page.'
+        'Login Successful!'
       );
       // Clear previous error messages for success message
       setErrorMessage('');
@@ -101,16 +134,12 @@ const LoginForm = (props: {
       openModal();
     } catch (error: unknown) {
       // Handle errors
-      console.error('Error Logging In: ', error);
-      if (error instanceof Error) {
-        // Show the specific error message from Firebase
-        setErrorMessage(error.message);
-      } else {
-        // Fallback message for non-Error types
-        setErrorMessage('An unknown error occurred. Please try again');
-      }
+      const errorCode = (error as { code: string }).code;
+      const errorMessage = displayUserErrors(errorCode);
+      setErrorMessage(errorMessage);
       // Callback: Opens sign-up modal component with failure message
       openModal();
+      console.error('Error Logging In: ', error);
     }
   };
 

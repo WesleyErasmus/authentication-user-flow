@@ -32,6 +32,14 @@ https://www.typescriptlang.org/docs/handbook/2/objects.html */
   email: string;
   password: string;
 }
+// Define the shape of the user error messages keys
+interface ErrorMessages {
+  'auth/email-already-in-use': string;
+  'auth/internal-error': string;
+  'auth/network-request-failed': string;
+
+  [key: string]: string;
+}
 
 // Initial values for the form
 const initialValues: FormValues = {
@@ -100,10 +108,26 @@ const SignUpForm = (props: {
     setShowPassword(!showPassword);
   };
 
+  // Error messages displayed to the user
+  const errorMessages: ErrorMessages = {
+    'auth/email-already-in-use':
+      'This email address is already in use. Please log in or try with a different email.',
+    'auth/internal-error':
+      'An internal error occurred. Please try again later.',
+    'auth/network-request-failed':
+      'Network error occurred. Please check your connection and try again.',
+  };
+
+  // Function to display the error messages to the user
+  const displayUserErrors = (errorCode: string) => {
+    return (
+      errorMessages[errorCode] ||
+      'An unknown error occurred. Please try again later.'
+    );
+  };
+
   // Form Submit Handler
   const handleSubmit = async (values: FormValues, { resetForm }) => {
-    /* (try...catch Promise method)
-   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch */
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
@@ -115,29 +139,22 @@ const SignUpForm = (props: {
       );
       // Handle successful user creation if the user is created successfully
       console.log('User Successfully created: ', response.user);
-      // Triggers success modal
-      setSuccessMessage('Your account has been successfully created.');
+      // Sets success message state
+      setSuccessMessage('Account created successfully!');
       // Clear previous error messages for success message
       setErrorMessage('');
       // Reset form (built-in Formik function)
       resetForm();
       // Callback: Opens sign-up modal component with success message
       openModal();
-      // GPT fix: using the unknown type to typescript unknown variable error.
+      // Error
     } catch (error: unknown) {
-      // Handle errors
-      console.error('Error creating user: ', error);
-      // Part of the GPT typescript error fix. Using the instance of operator:
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
-      if (error instanceof Error) {
-        // Show the specific error message from Firebase
-        setErrorMessage(error.message);
-      } else {
-        // Fallback message for non-Error types
-        setErrorMessage('An unknown error occurred. Please try again');
-      }
+      const errorCode = (error as { code: string }).code;
+      const errorMessage = displayUserErrors(errorCode);
+      setErrorMessage(errorMessage);
       // Callback: Opens sign-up modal component with failure message
       openModal();
+      console.error('Error creating user: ', error);
     }
   };
 
