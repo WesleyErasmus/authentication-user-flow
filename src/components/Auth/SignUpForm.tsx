@@ -127,7 +127,7 @@ const SignUpForm = (props: {
   };
 
   // Form Submit Handler
-  const handleSubmit = async (values: FormValues, { resetForm }) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
@@ -143,8 +143,6 @@ const SignUpForm = (props: {
       setSuccessMessage('Account created successfully!');
       // Clear previous error messages for success message
       setErrorMessage('');
-      // Reset form (built-in Formik function)
-      resetForm();
       // Callback: Opens sign-up modal component with success message
       openModal();
       // Error
