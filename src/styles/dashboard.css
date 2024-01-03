@@ -1,0 +1,16 @@
+.cover-container {
+    max-width: 42em;
+}
+
+.dashboard-body {
+    padding: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.dashboard-text {
+    text-align: center;
+}
