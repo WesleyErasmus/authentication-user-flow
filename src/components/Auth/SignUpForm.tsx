@@ -147,6 +147,8 @@ const SignUpForm = (props: {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
+      validateOnBlur={false} // used to prevent show pw from triggering Yup validation
+      validateOnChange={false} // used to prevent show pw from triggering Yup validation
     >
       <div className='container mt-5'>
         <div className='row justify-content-center'>
