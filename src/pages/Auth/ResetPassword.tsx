@@ -1,5 +1,5 @@
 // Formik import
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
 
 // Yup Import
 import * as Yup from 'yup';
@@ -11,10 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginPage } from '../../routes';
 
 // Firebase imports
-import {
-  sendPasswordResetEmail,
-  fetchSignInMethodsForEmail,
-} from 'firebase/auth';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../main';
 
 // User authentication message modal import
@@ -53,29 +50,25 @@ const ResetPassword = () => {
   };
 
   // Reset password form handler
-  const handlePasswordReset = async (values: FormValues) => {
+  const handlePasswordReset = async (
+    values: FormValues,
+    //FormikHelpers<FormValues> provides TypeScript with the correct type information for the resetForm function
+    { resetForm }: FormikHelpers<FormValues>
+  ) => {
     try {
       // Extract the email from the form email value
       const { email } = values;
 
-      // >>>>>>>>>> BELOW EMAIL CHECK IS NOT FUNCTIONING - IT KEEPS ON RETURNING AN EMPTY ARRAY EVEN IF THE EMAIL EXISTS <<<<<<<<<<
-
-      // Check if the email exists before sending the reset email
-      const checkIfEmailExists = await fetchSignInMethodsForEmail(auth, email);
-      console.log(checkIfEmailExists);
-      console.log(email);
-      if (!checkIfEmailExists.length) {
-        // throw new Error("User not found");
-      }
       // Firebase send email password link built-in function
       await sendPasswordResetEmail(auth, email);
       console.log('Password reset success');
-      // Callback: Opens sign-up modal component with success message
       setSuccessMessage(
         'Success! A password reset link has been sent to your email address. Check your inbox and follow the instructions to create a new password.'
       );
       // Clear previous error messages for success message
       setErrorMessage('');
+      // Reset form after successful submit for improved flow
+      resetForm();
       // Callback: Opens sign-up modal component with success message
       openModal();
     } catch (error: unknown) {

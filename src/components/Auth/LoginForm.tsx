@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Importing Login page const path
-import { resetPassword, signUpPage } from '../../routes';
+import { dashboard, resetPassword, signUpPage } from '../../routes';
 
 // Defines the shape and validation of the form values
 interface FormValues {
@@ -125,13 +125,11 @@ const LoginForm = (props: {
       // Handle successful user creation if the user is created successfully
       console.log('User Successfully Logged In: ', response.user);
       // Sets success message state
-      setSuccessMessage(
-        'Login Successful!'
-      );
+      setSuccessMessage('Login Successful!');
       // Clear previous error messages for success message
       setErrorMessage('');
-      // Callback: Opens sign-up modal component with success message
-      openModal();
+      // Redirect user to dashboard page
+      navigate(dashboard);
     } catch (error: unknown) {
       // Handle errors
       const errorCode = (error as { code: string }).code;
