@@ -8,7 +8,6 @@ import { useState } from 'react';
 const AuthenticationModal = (props: {
   modalTitle: string;
   signUpValidationMessage: string;
-  redirectLink: string;
   closeModal: () => void;
   modalTheme: boolean;
 }) => {

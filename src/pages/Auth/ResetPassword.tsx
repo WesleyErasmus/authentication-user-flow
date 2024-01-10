@@ -31,6 +31,8 @@ interface ErrorMessages {
   'auth/invalid-email': string;
   'auth/internal-error': string;
   'auth/network-request-failed': string;
+
+  [key: string]: string;
 }
 
 // Defines the shape and validation of the form email input value
@@ -219,7 +221,6 @@ const ResetPassword = () => {
                             errorMessage ? errorMessage : successMessage
                           }
                           closeModal={() => setShowModal(false)}
-                          redirectLink={'Login'}
                           modalTheme={errorMessage ? false : true}
                         />
                       )}
@@ -230,6 +231,7 @@ const ResetPassword = () => {
             </div>
           </div>
         </div>
+        {/* Display Spinner when loading */}
         {isLoading && <LoadingSpinner />}
       </div>
     </>

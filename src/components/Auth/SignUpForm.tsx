@@ -112,6 +112,10 @@ const SignUpForm = (props: {
     setShowModal(true);
   };
 
+  const successRedirect = () => {
+    navigate(loginPage);
+  }
+
   // Show / Hide password input field
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -153,10 +157,12 @@ const SignUpForm = (props: {
       console.log('User Successfully created: ', response.user);
       // Sets success message state
       setSuccessMessage('Account created successfully!');
+      // Stop loading spinner
+      setIsLoading(false);
       // Clear previous error messages for success message
       setErrorMessage('');
-      // Redirect user to dashboard page
-      navigate(loginPage);
+      // Callback: Opens modal component with success message
+      openModal();
       // Handle errors
     } catch (error: unknown) {
       const errorCode = (error as { code: string }).code;
@@ -324,11 +330,10 @@ const SignUpForm = (props: {
                       signUpValidationMessage={
                         errorMessage ? errorMessage : successMessage
                       }
-                      closeModal={() => setShowModal(false)}
+                      closeModal={errorMessage ? () => setShowModal(false) : successRedirect}
                       modalTitle={
                         errorMessage ? 'Sign Up Failed' : 'Sign Up Success'
                       }
-                      redirectLink={'Try again'}
                       modalTheme={errorMessage ? false : true}
                     />
                   )}
@@ -339,7 +344,7 @@ const SignUpForm = (props: {
         </div>
       </Formik>
 
-      {/* Spinner when loading */}
+      {/* Display Spinner when loading */}
       {isLoading && <LoadingSpinner />}
     </div>
   );
