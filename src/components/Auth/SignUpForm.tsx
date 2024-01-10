@@ -26,6 +26,9 @@ import { loginPage } from '../../routes';
 // Logo import
 import logo from '../../assets/form_AUF-logos_transparent.png';
 
+// Import spinner
+import LoadingSpinner from '../LoadingSpinner';
+
 // Define the shape and validation of the form values
 interface FormValues {
   /* FormValues is a custom type created to define the structure of an object representing form values. See doc below on representing data through an interface:
@@ -97,6 +100,8 @@ const SignUpForm = (props: {
   const [successMessage, setSuccessMessage] = useState('');
   // Show password state
   const [showPassword, setShowPassword] = useState(false);
+  // Loading spinner state
+  const [isLoading, setIsLoading] = useState(false);
 
   // Hook to get navigation function from useNavigate from react-router-dom
   const navigate = useNavigate();
@@ -131,6 +136,8 @@ const SignUpForm = (props: {
 
   // Form Submit Handler
   const handleSubmit = async (values: FormValues) => {
+    // Trigger loading spinner
+    setIsLoading(true);
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
@@ -151,6 +158,8 @@ const SignUpForm = (props: {
       // Handle errors
     } catch (error: unknown) {
       const errorCode = (error as { code: string }).code;
+      // Stop loading spinner
+      setIsLoading(false);
       const errorMessage = displayUserErrors(errorCode);
       setErrorMessage(errorMessage);
       // Callback: Opens sign-up modal component with failure message
@@ -327,6 +336,9 @@ const SignUpForm = (props: {
           </div>
         </div>
       </Formik>
+
+      {/* Spinner when loading */}
+      {isLoading && <LoadingSpinner />}
     </div>
   );
 };

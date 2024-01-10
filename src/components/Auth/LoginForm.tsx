@@ -26,6 +26,9 @@ import { dashboard, resetPassword, signUpPage } from '../../routes';
 // Logo import
 import logo from '../../assets/form_AUF-logos_transparent.png';
 
+// Loading spinner import
+import LoadingSpinner from '../LoadingSpinner';
+
 // Defines the shape and validation of the form values
 interface FormValues {
   email: string;
@@ -82,6 +85,8 @@ const LoginForm = (props: {
   const [successMessage, setSuccessMessage] = useState('');
   // Show password state
   const [showPassword, setShowPassword] = useState(false);
+  // Loading spinner state
+  const [isLoading, setIsLoading] = useState(false);
 
   // Hook to get navigation function from useNavigate from react-router-dom
   const navigate = useNavigate();
@@ -120,6 +125,8 @@ const LoginForm = (props: {
 
   // Form Submit Handler
   const handleSubmit = async (values: FormValues) => {
+    // Trigger loading spinner
+    setIsLoading(true);
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
@@ -136,6 +143,8 @@ const LoginForm = (props: {
       // Handle errors
     } catch (error: unknown) {
       const errorCode = (error as { code: string }).code;
+      // Stop loading spinner
+      setIsLoading(false);
       const errorMessage = displayUserErrors(errorCode);
       setErrorMessage(errorMessage);
       // Callback: Opens sign-up modal component with failure message
@@ -282,6 +291,7 @@ const LoginForm = (props: {
           </div>
         </div>
       </Formik>
+      {isLoading && <LoadingSpinner />}
     </div>
   );
 };

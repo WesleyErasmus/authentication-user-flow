@@ -23,6 +23,9 @@ import AuthenticationModal from '../../components/AuthenticationModal';
 // React state hook
 import { useState } from 'react';
 
+// Import loading spinner
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 // Defines the shape and validation of the form email input value
 interface FormValues {
   email: string;
@@ -48,6 +51,8 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState('');
   // User success message state
   const [successMessage, setSuccessMessage] = useState('');
+  // Loading spinner state
+  const [isLoading, setIsLoading] = useState(false);
 
   // Open modal function. Changes the state of the modal display to true
   const openModal = () => {
@@ -60,6 +65,8 @@ const ResetPassword = () => {
     //FormikHelpers<FormValues> provides TypeScript with the correct type information for the resetForm function
     { resetForm }: FormikHelpers<FormValues>
   ) => {
+    // Trigger loading spinner
+    setIsLoading(true);
     try {
       // Extract the email from the form email value
       const { email } = values;
@@ -75,12 +82,18 @@ const ResetPassword = () => {
       setErrorMessage('');
       // Reset form after successful submit for improved flow
       resetForm();
+      // Stop loading spinner
+       setIsLoading(false);
       // Callback: Opens sign-up modal component with success message
       openModal();
       // Handles errors
     } catch (error: unknown) {
+      // setIsLoading(false);
       console.error(error);
+      // setIsLoading(false);
       if (error instanceof Error) {
+        // Stop loading spinner
+        setIsLoading(false);
         setErrorMessage(error.message);
         setSuccessMessage('');
       }
@@ -196,6 +209,7 @@ const ResetPassword = () => {
             </div>
           </div>
         </div>
+        {isLoading && (<LoadingSpinner />)}
       </div>
     </>
   );
