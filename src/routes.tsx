@@ -5,6 +5,7 @@ import Login from './pages/Auth/Login';
 import Home from './pages/Home/Home';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Dashboard from './pages/Home/Dashboard';
+import PageNotFound from './pages/PageNotFound';
 
 /* Constants defining the route paths to ensure centralized management.
 By using these constants throughout the application, updates or modifications
@@ -16,6 +17,7 @@ export const signUpPage = '/signup';
 export const loginPage = '/login';
 export const resetPassword = '/password-reset';
 export const dashboard = '/dashboard';
+export const pageNotFound = '/page-not-found';
 
 const routes = (
   <BrowserRouter>
@@ -30,6 +32,8 @@ const routes = (
       <Route path={resetPassword} element={<ResetPassword />} />
       {/* Dashboard Page */}
       <Route path={dashboard} element={<Dashboard />} />
+      {/* Catch all * -  Page Not Found Page */}
+      <Route path='*' element={<PageNotFound />} />
     </Routes>
   </BrowserRouter>
 );

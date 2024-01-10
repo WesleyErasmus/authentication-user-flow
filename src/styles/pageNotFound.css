@@ -1,0 +1,13 @@
+/* Page wrapper */
+.page-not-found-wrapper {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Warning icon */
+.redirect-icon {
+    font-size: 5.5rem;
+}
