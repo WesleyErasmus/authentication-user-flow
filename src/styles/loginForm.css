@@ -1,16 +1,41 @@
-/* Form Validation Error Message styling */
-.validation-error-message {
-    color: red !important;
-    font-size: small;
-    padding: 2px 4px;
-    margin-bottom: 14px;
+/* Page wrapper */
+.login-page-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
 }
 
-.show-password-checkbox {
-    padding-left: 7px;
+/* Form container */
+.login-form-container {
+    margin-top: 6.2rem;
 }
 
-/* Text between SignUp btn and Login btn */
-.span-btn-spacer {
-    color: gray;
+/* Form card */
+.login-form-card {
+    background-color: #ffffffe5 !important;
+    border: none !important;
+    box-shadow: var(--shadow);
+    border-radius: 1rem !important;
+}
+
+/* Form logo */
+.login-form-logo-container {
+    width: 320px !important;
+}
+
+/* Media query for screen size of 536px and smaller */
+@media only screen and (max-width: 536px) {
+
+    /* Form container */
+    .login-form-container {
+        margin-top: 0;
+    }
+
+    /* Form card */
+    .login-form-card {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
 }

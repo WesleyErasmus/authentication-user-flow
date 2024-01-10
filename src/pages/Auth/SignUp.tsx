@@ -5,7 +5,7 @@ const SignUp = () => {
     <>
     {/* SignUp Form with Props for form title and input field placeholder text */}
       <SignUpForm
-        formTitle="Sign-Up"
+        formTitle="Create Your Account"
         firstName="First Name *"
         surname="Surname *"
         email="Email Address *"

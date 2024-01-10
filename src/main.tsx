@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom/client";
 // Router import
 import routes from "./routes";
+// App global styles
+import "./styles/main.css"
 
 // Bootstrap Import
 import "bootstrap/dist/css/bootstrap.min.css";

@@ -1,4 +1,4 @@
-import SignUp from "../Auth/SignUp";
+import SignUp from '../Auth/SignUp';
 
 const Home = () => {
   return (
@@ -6,6 +6,6 @@ const Home = () => {
       <SignUp />
     </>
   );
-}
+};
 
-export default Home
+export default Home;

@@ -1,0 +1,41 @@
+/* Modal card styling */
+.modal-content {
+    border-radius: 1rem !important;
+    border: none !important;
+}
+
+/* Modal header */
+.modal-header {
+    border: none !important;
+    padding-bottom: 0 !important;
+}
+
+/* Modal icon */
+.modal-title-icon {
+    font-size: 2.5rem;
+}
+
+/*  */
+.modal-title {
+    font-weight: bolder;
+}
+
+/* Modal body text */
+.user-validation-message {
+    color: #000 !important;
+}
+
+/* Modal footer */
+.modal-footer {
+    border: none !important;
+}
+
+/* Modal success theme styling (bootstrap success hex color code used here */
+.success-modal {
+    color: #198754;
+}
+
+/* Modal failure theme styling (bootstrap danger hex code color code used here */
+.failure-modal {
+    color: #dc3545;
+}

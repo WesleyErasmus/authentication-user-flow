@@ -23,6 +23,9 @@ import { useNavigate } from 'react-router-dom';
 // Importing Login page const path
 import { dashboard, resetPassword, signUpPage } from '../../routes';
 
+// Logo import
+import logo from '../../assets/form_AUF-logos_transparent.png';
+
 // Defines the shape and validation of the form values
 interface FormValues {
   email: string;
@@ -63,7 +66,7 @@ const validationSchema = Yup.object({
     .required('Password is required'),
 });
 
-// Sign-Up Form Object Function
+// Login Form Object Function
 const LoginForm = (props: {
   formTitle: string;
   email: string;
@@ -73,11 +76,11 @@ const LoginForm = (props: {
 }) => {
   // State to manage modal visibility
   const [showModal, setShowModal] = useState(false);
-  // User Sign-up error message state
+  // User Login error message state
   const [errorMessage, setErrorMessage] = useState('');
-  // User Sign-up success message
+  // User Login success message
   const [successMessage, setSuccessMessage] = useState('');
-  //   Show password state
+  // Show password state
   const [showPassword, setShowPassword] = useState(false);
 
   // Hook to get navigation function from useNavigate from react-router-dom
@@ -120,7 +123,7 @@ const LoginForm = (props: {
     try {
       // Extract the email and password from the form values
       const { email, password } = values;
-      // Create a new user in Firebase with the email and password
+      // Sign-in using Firebase auth with the email and password
       const response = await signInWithEmailAndPassword(auth, email, password);
       // Handle successful user creation if the user is created successfully
       console.log('User Successfully Logged In: ', response.user);
@@ -130,8 +133,8 @@ const LoginForm = (props: {
       setErrorMessage('');
       // Redirect user to dashboard page
       navigate(dashboard);
-    } catch (error: unknown) {
       // Handle errors
+    } catch (error: unknown) {
       const errorCode = (error as { code: string }).code;
       const errorMessage = displayUserErrors(errorCode);
       setErrorMessage(errorMessage);
@@ -142,103 +145,144 @@ const LoginForm = (props: {
   };
 
   return (
-    // Formik opening tag including the state of the form input fields, the form handle submit function, and the Yup validation schema
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={validationSchema}
-      validateOnBlur={false} // used to prevent show pw from triggering Yup validation
-      validateOnChange={false} // used to prevent show pw from triggering Yup validation
-    >
-      <div className='container mt-5'>
-        <div className='row justify-content-center'>
-          <div className='col-12 col-md-8 col-lg-6' style={{ width: '35rem' }}>
-            <div className='card'>
-              {/* Form Title */}
-              <h2 className='text-center mt-5'>{props.formTitle}</h2>
-              <div className='card-body py-md-4'>
-                {/* Login form using Formik */}
-                <Form>
-                  <div className='col'>
-                    {/* Email input */}
-                    <Field
-                      className='form-control'
-                      name='email'
-                      type='email'
-                      id='email'
-                      placeholder={props.email}
-                    />
-                    {/* Formik/Yup validation error message */}
-                    <p className='validation-error-message'>
-                      <ErrorMessage name='email' />
-                    </p>
-                  </div>
-                  <div className='col'>
-                    {/* Password input */}
-                    <Field
-                      className='form-control'
-                      name='password'
-                      type={showPassword ? 'text' : 'password'}
-                      id='password'
-                      placeholder={props.password}
-                    />
-                    {/* Formik/Yup validation error message */}
-                    <p className='validation-error-message'>
-                      <ErrorMessage name='password' />
-                    </p>
-                    {/* SHOW PASSWORD BUTTON - >>>>>> IN PROGRESS <<<<<<< 
-                      - Password validation gets triggered when the show password checkbox is clicked, most likely because the password field has been "touched" - how can this bug be resolved to prevent password validation from being triggered?  
-                    */}
-                    <label className='show-password-checkbox'>
-                      <Field
-                        type='checkbox'
-                        name='toggle'
-                        onClick={togglePasswordVisibility}
-                      />{' '}
-                      <span>{showPassword ? 'Hide' : 'Show'} Password</span>
-                    </label>
-                  </div>
-                  {/* Form button group */}
-                  <div className='d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center'>
-                    {/* Create account button */}
-                    <button type='submit' className='btn btn-primary mt-4'>
-                      {props.submitButton}
-                    </button>
-                    <span className='span-btn-spacer'>Or</span>
-                  </div>
-                </Form>
-                <div className='d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center mt-2'>
-                  {/* Login page link */}
-                  <button
-                    className='btn btn-success mb-4'
-                    onClick={() => navigate(signUpPage)}
-                  >
-                    {props.redirect}
-                  </button>
-                  <p onClick={() => navigate(resetPassword)}>
-                    {' '}
-                    <a href=''> Forgot password? Reset Password</a>
-                  </p>
+    // Page wrapper
+    <div className='login-page-wrapper app-bg'>
+      {/* Formik opening tag including the state of the form input fields, the form handle submit function, and the Yup validation schema */}
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
+        // used to prevent show pw from triggering Yup validation
+        validateOnBlur={false}
+        // used to prevent show pw from triggering Yup validation
+        validateOnChange={false}
+      >
+        {/* Login form container */}
+        <div className='container login-form-container'>
+          <div className='row justify-content-center'>
+            {/* Form width and responsive grid classes */}
+            <div
+              className='col-12 col-md-8 col-lg-6'
+              style={{ width: '35rem' }}
+            >
+              {/* Form card */}
+              <div className='login-form-card card pt-3'>
+                {/* Form logo */}
+                <div className='login-form-logo-container mx-auto'>
+                  {/* Logo image */}
+                  <img src={logo} alt='Logo' className='img-fluid' />
                 </div>
+                <div className='mx-auto text-center'>
+                  {/* Form Title */}
+                  <h3 className='app-headings-global text-center text-black'>
+                    {/* Title icon */}
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='45'
+                      height='45'
+                      fill='currentColor'
+                      className='bi bi-box-arrow-in-right text-secondary'
+                      viewBox='0 0 16 16'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z'
+                      />
+                      <path
+                        fillRule='evenodd'
+                        d='M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z'
+                      />
+                    </svg>{' '}
+                    {/* Title prop */}
+                    {props.formTitle}
+                  </h3>
+                </div>
+                <div className='card-body py-md-4'>
+                  {/* Login form using Formik */}
+                  <Form>
+                    <div className='col'>
+                      {/* Email input */}
+                      <Field
+                        className='form-control'
+                        name='email'
+                        type='email'
+                        id='email'
+                        placeholder={props.email}
+                      />
+                      {/* Formik/Yup validation error message */}
+                      <p className='app-form-validation-error-message'>
+                        <ErrorMessage name='email' />
+                      </p>
+                    </div>
+                    <div className='col'>
+                      {/* Password input */}
+                      <Field
+                        className='form-control'
+                        name='password'
+                        type={showPassword ? 'text' : 'password'}
+                        id='password'
+                        placeholder={props.password}
+                      />
+                      {/* Formik/Yup validation error message */}
+                      <p className='app-form-validation-error-message'>
+                        <ErrorMessage name='password' />
+                      </p>
+                      {/* Show password checkbox */}
+                      <label className='show-password-checkbox px-1'>
+                        <Field
+                          type='checkbox'
+                          name='toggle'
+                          onClick={togglePasswordVisibility}
+                        />{' '}
+                        <span>{showPassword ? 'Hide' : 'Show'} Password</span>
+                      </label>
+                    </div>
+                    {/* Form button group */}
+                    <div className='d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center'>
+                      {/* Create account button */}
+                      <button type='submit' className='btn btn-primary mt-4'>
+                        {props.submitButton}
+                      </button>
+                      {/* Text between buttons */}
+                      <span className='span-btn-spacer'>Or</span>
+                    </div>
+                  </Form>
+                  {/* Form button group */}
+                  <div className='d-grid gap-2 col-sm-12 col-md-11 col-lg-11 col-xxl-11 mx-auto text-center mt-2'>
+                    {/* Login page link */}
+                    <button
+                      className='btn btn-secondary mb-4'
+                      onClick={() => navigate(signUpPage)}
+                    >
+                      {props.redirect}
+                    </button>
+                    <p onClick={() => navigate(resetPassword)}>
+                      Forgot your password? <a href=''>Reset Password</a>
+                    </p>
+                  </div>
 
-                {/* Managing visibility of the modal state using shorthand conditional rendering. This changes the shoModal state from its default false state to true displaying the AuthenticationModal component.  */}
-                {showModal && (
-                  // Ternary operator used to conditionally render the correct error/success messages for the user
-                  <AuthenticationModal
-                    signUpValidationMessage={
-                      errorMessage ? errorMessage : successMessage
-                    }
-                    closeModal={() => setShowModal(false)}
-                    modalTitle={errorMessage ? 'Login Failed' : 'LoginSuccess'}
-                    redirectLink={'Login'}
-                  />
-                )}
+                  {/* Managing visibility of the modal state using shorthand conditional rendering. This changes the shoModal state from its default false state to true displaying the AuthenticationModal component.  */}
+                  {showModal && (
+                    // Ternary operator used to conditionally render the correct error/success messages for the user
+                    <AuthenticationModal
+                      signUpValidationMessage={
+                        errorMessage ? errorMessage : successMessage
+                      }
+                      closeModal={() => setShowModal(false)}
+                      modalTitle={
+                        errorMessage ? 'Login Failed' : 'LoginSuccess'
+                      }
+                      redirectLink={'Login'}
+                      modalTheme={false}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </Formik>
+      </Formik>
+    </div>
   );
 };
 

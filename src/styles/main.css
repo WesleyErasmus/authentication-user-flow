@@ -1,0 +1,23 @@
+/* App global styling variables */
+:root {
+    --shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    --text-secondary-color: rgba(98, 112, 170, 0.877);
+}
+
+/* App background styling */
+.app-bg {
+    background-color: ghostwhite;
+}
+
+/* App form title global styling */
+.app-headings-global {
+    font-weight: bolder;
+}
+
+/* App form Validation Error Message styling */
+.app-form-validation-error-message {
+    color: red !important;
+    font-size: small;
+    padding: 2px 4px;
+    margin-bottom: 14px;
+}

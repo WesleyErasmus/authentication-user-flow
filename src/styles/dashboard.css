@@ -1,16 +1,40 @@
-.cover-container {
-    max-width: 42em;
+/* Page wrapper */
+.dashboard-page-wrapper {
+    height: 100vh;
+    overflow-x: hidden;
 }
 
+/* Page logo */
+.logo-container-dash {
+    max-width: 500px;
+}
+
+/* Dashboard page content */
 .dashboard-body {
+    margin-top: 6.2rem;
+    max-width: 42em;
     padding: 1em;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
 }
 
-.dashboard-text {
-    text-align: center;
+/* Dashboard footer */
+.dashboard-footer-content {
+    border-top: 0.1px solid grey;
+    padding-top: 1rem;
+}
+
+.readme-text {
+    font-size: 14px !important;
+}
+
+.readme-text-link {
+    font-size: 16px !important;
+}
+
+/* Media query for screen size of 536px and smaller */
+@media only screen and (max-width: 536px) {
+
+    /* Page container */
+    .dashboard-body {
+        margin-top: 0.5rem !important;
+    }
 }
