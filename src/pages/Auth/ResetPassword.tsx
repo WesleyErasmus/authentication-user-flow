@@ -26,6 +26,13 @@ import { useState } from 'react';
 // Import loading spinner
 import LoadingSpinner from '../../components/LoadingSpinner';
 
+// Define the shape of the user error messages keys
+interface ErrorMessages {
+  'auth/invalid-email': string;
+  'auth/internal-error': string;
+  'auth/network-request-failed': string;
+}
+
 // Defines the shape and validation of the form email input value
 interface FormValues {
   email: string;
@@ -59,6 +66,23 @@ const ResetPassword = () => {
     setShowModal(true);
   };
 
+  // Error messages displayed to the user
+  const errorMessages: ErrorMessages = {
+    'auth/internal-error':
+      'An internal error occurred. Please try again later.',
+    'auth/network-request-failed':
+      'Network error occurred. Please check your connection and try again.',
+    'auth/invalid-email': 'Please enter a valid email address',
+  };
+
+  // Function to display the error messages to the user
+  const displayUserErrors = (errorCode: string) => {
+    return (
+      errorMessages[errorCode] ||
+      'An unknown error has occurred. Please try again later.'
+    );
+  };
+
   // Reset password form handler
   const handlePasswordReset = async (
     values: FormValues,
@@ -83,22 +107,19 @@ const ResetPassword = () => {
       // Reset form after successful submit for improved flow
       resetForm();
       // Stop loading spinner
-       setIsLoading(false);
+      setIsLoading(false);
       // Callback: Opens sign-up modal component with success message
       openModal();
       // Handles errors
     } catch (error: unknown) {
-      // setIsLoading(false);
-      console.error(error);
-      // setIsLoading(false);
-      if (error instanceof Error) {
-        // Stop loading spinner
-        setIsLoading(false);
-        setErrorMessage(error.message);
-        setSuccessMessage('');
-      }
-      // Callback: Opens sign-up modal component with success message
+      const errorCode = (error as {code: string}).code;
+      // Stop loading error
+      setIsLoading(false);
+      const errorMessage = displayUserErrors(errorCode);
+      setErrorMessage(errorMessage);
+      // Callback: Opens modal component with failure message
       openModal();
+      console.error('Error sending email link', error);
     }
   };
   // React-router-dom routing
@@ -209,7 +230,7 @@ const ResetPassword = () => {
             </div>
           </div>
         </div>
-        {isLoading && (<LoadingSpinner />)}
+        {isLoading && <LoadingSpinner />}
       </div>
     </>
   );

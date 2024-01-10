@@ -147,7 +147,7 @@ const LoginForm = (props: {
       setIsLoading(false);
       const errorMessage = displayUserErrors(errorCode);
       setErrorMessage(errorMessage);
-      // Callback: Opens sign-up modal component with failure message
+      // Callback: Opens modal component with failure message
       openModal();
       console.error('Error Logging In: ', error);
     }

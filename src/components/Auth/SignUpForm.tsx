@@ -43,6 +43,7 @@ interface ErrorMessages {
   'auth/email-already-in-use': string;
   'auth/internal-error': string;
   'auth/network-request-failed': string;
+  'auth/invalid-email': string;
 
   [key: string]: string;
 }
@@ -124,6 +125,7 @@ const SignUpForm = (props: {
       'An internal error occurred. Please try again later.',
     'auth/network-request-failed':
       'Network error occurred. Please check your connection and try again.',
+    'auth/invalid-email': 'Please enter a valid email address',
   };
 
   // Function to display the error messages to the user
@@ -162,7 +164,7 @@ const SignUpForm = (props: {
       setIsLoading(false);
       const errorMessage = displayUserErrors(errorCode);
       setErrorMessage(errorMessage);
-      // Callback: Opens sign-up modal component with failure message
+      // Callback: Opens modal component with failure message
       openModal();
       console.error('Error creating user: ', error);
     }
