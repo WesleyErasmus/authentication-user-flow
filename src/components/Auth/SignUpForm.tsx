@@ -14,8 +14,8 @@ import { auth } from '../../main';
 // User authentication message modal import
 import AuthenticationModal from '../AuthenticationModal';
 
-// React state Hook
-import { useState } from 'react';
+// React state and effect Hook
+import { useState, useEffect } from 'react';
 
 // Importing useNavigate hook
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,7 @@ import logo from '../../assets/form_AUF-logos_transparent.png';
 
 // Import spinner
 import LoadingSpinner from '../LoadingSpinner';
+import UserGuide from '../UserGuide';
 
 // Define the shape and validation of the form values
 interface FormValues {
@@ -103,6 +104,22 @@ const SignUpForm = (props: {
   const [showPassword, setShowPassword] = useState(false);
   // Loading spinner state
   const [isLoading, setIsLoading] = useState(false);
+  // Display first load popup
+  const [displayPopUp, setDisplayPopUp] = useState(true);
+
+  // Page first load pop-up check using the useEffect hook
+  useEffect(() => {
+    // Getting "seenPopUp" value from local storage
+    const firstLoad = localStorage.getItem("seenPopUp");
+    // Changes setDisplayPopUp to false
+    setDisplayPopUp(!firstLoad)
+  }, []);
+  
+// Function to set "seenPopUp" key to local storage. useEffect checks for this key on page load to check if this key exists. If this key exists then the pop-up will not display.
+  const storeSeenPopUp = () => {
+    localStorage.setItem("seenPopUp", String(true));
+    setDisplayPopUp(false)
+  };
 
   // Hook to get navigation function from useNavigate from react-router-dom
   const navigate = useNavigate();
@@ -192,6 +209,14 @@ const SignUpForm = (props: {
       >
         {/* Sign-up form container */}
         <div className='container sign-up-form-container'>
+          {/* First time load pop-up. Conditionally renders modal based on existing local storage key. Pop-up only displays for first time site visiters */}
+          {displayPopUp && (
+            <AuthenticationModal
+              modalTitle={'Welcome!'}
+              signUpValidationMessage={<UserGuide />}
+              closeModal={() => storeSeenPopUp()}
+            />
+          )}
           <div className='row justify-content-center'>
             {/* Form width and responsive grid classes */}
             <div
@@ -330,7 +355,11 @@ const SignUpForm = (props: {
                       signUpValidationMessage={
                         errorMessage ? errorMessage : successMessage
                       }
-                      closeModal={errorMessage ? () => setShowModal(false) : successRedirect}
+                      closeModal={
+                        errorMessage
+                          ? () => setShowModal(false)
+                          : successRedirect
+                      }
                       modalTitle={
                         errorMessage ? 'Sign Up Failed' : 'Sign Up Success'
                       }
