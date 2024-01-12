@@ -281,7 +281,6 @@ const LoginForm = (props: {
                       modalTitle={
                         errorMessage ? 'Login Failed' : 'LoginSuccess'
                       }
-                      redirectLink={'Login'}
                       modalTheme={false}
                     />
                   )}

@@ -8,7 +8,7 @@ import { loginPage, resetPassword, signUpPage } from '../../routes';
 import { useNavigate } from 'react-router-dom';
 
 // Logo import
-import logo from '../../assets/dashboard_AUF-logos_transparent.png';
+import logo from '../../assets/dashboard_AUF-logos_black.png';
 
 // Home page object function
 const Dashboard = () => {
@@ -20,12 +20,12 @@ const Dashboard = () => {
       {/* Page wrapper */}
       <div className='dashboard-page-wrapper app-bg'>
         {/* Page content container */}
-        <div className='cover-container d-flex w-100 p-3 mx-auto flex-column'>
+        <div className='cover-container d-flex w-100 p-1 mx-auto flex-column'>
           {/* Dashboard body */}
           <main className='dashboard-body mx-auto'>
             <div className='dashboard-text text-center'>
               {/* Logo container */}
-              <div className='logo-container-dash mx-auto mb-4'>
+              <div className='logo-container-dash mx-auto mb-2'>
                 {/* Logo image */}
                 <img
                   src={logo}
@@ -34,7 +34,7 @@ const Dashboard = () => {
                 />
               </div>
               {/* Dashboard body text */}
-              <div className='display-6 mb-4 text-black'>
+              <div className='dashboard-page-heading display-6 mb-4 text-primary fw-bolder px-2'>
                 Thank you for taking the time to engage with my project!{' '}
               </div>
               {/* Dashboard body text */}
@@ -85,11 +85,17 @@ const Dashboard = () => {
                   .
                 </code>
                 <div>
-                  <p className='readme-text mt-5 badge text-bg-dark'>
+                  <p className='readme-text mt-4 badge text-bg-dark'>
                     View the Authentication User Flow {/* App readme link */}
                     <span>
                       <code className='readme-text-link'>
-                        <a href=''>README</a>
+                        <a
+                          href='https://github.com/WesleyErasmus/authentication-user-flow/blob/main/README.md'
+                          target='_blank'
+                        >
+                          README
+                          <i className='bi bi-box-arrow-in-right readme-page-icon'></i>
+                        </a>
                       </code>
                     </span>
                   </p>

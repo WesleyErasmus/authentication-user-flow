@@ -6,7 +6,12 @@
 
 /* Page logo */
 .logo-container-dash {
-    max-width: 500px;
+    max-width: 250px;
+}
+
+.dashboard-page-heading {
+    /* border-top: 0.1px grey solid; */
+    padding-top: 1.5rem;
 }
 
 /* Dashboard page content */
@@ -23,11 +28,16 @@
 }
 
 .readme-text {
-    font-size: 14px !important;
+    font-size: 13px !important;
+}
+
+.readme-page-icon {
+    font-size: 16px !important;
+    margin-left: 1px;
 }
 
 .readme-text-link {
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 /* Media query for screen size of 536px and smaller */
@@ -36,5 +46,10 @@
     /* Page container */
     .dashboard-body {
         margin-top: 0.5rem !important;
+    }
+
+    /* Page logo */
+    .logo-container-dash {
+        max-width: 180px;
     }
 }

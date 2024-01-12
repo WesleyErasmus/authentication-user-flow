@@ -114,7 +114,7 @@ const ResetPassword = () => {
       openModal();
       // Handles errors
     } catch (error: unknown) {
-      const errorCode = (error as {code: string}).code;
+      const errorCode = (error as { code: string }).code;
       // Stop loading error
       setIsLoading(false);
       const errorMessage = displayUserErrors(errorCode);
