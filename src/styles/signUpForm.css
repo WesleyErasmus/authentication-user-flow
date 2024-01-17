@@ -1,0 +1,41 @@
+/* Page wrapper */
+.sign-up-page-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Form container */
+.sign-up-form-container {
+    margin-top: 6.2rem;
+}
+
+/* Form card */
+.sign-up-form-card {
+    background-color: #ffffffe5 !important;
+    border: none !important;
+    box-shadow: var(--shadow);
+    border-radius: 1rem !important;
+}
+
+/* Form logo */
+.sign-up-form-logo-container {
+    width: 320px !important;
+}
+
+/* Media query for screen size of 536px and smaller */
+@media only screen and (max-width: 536px) {
+
+    /* Form container */
+    .sign-up-form-container {
+        margin-top: 0rem;
+    }
+
+    /* Form card */
+    .sign-up-form-card {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+}

@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# Authentication User Flow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Install dependencies
+```bash
+npm install
+```
+2. Start the development server
+```bash
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Key Features
+- __Secure User Management:__ Leverages Firebase Authentication for backend security.
+- __Email and Password Authentication:__ Supports sign-up, login, and password reset using email and password credentials.
+- __Intuitive User Flow:__ Guides users through sign-up, login, and password reset processes.
+- __Dashboard Access:__ Directs authenticated users to the dashboard page.
+- __404 Page:__ Catches all undefined routes and redirects users to a "page-not-found" page.
+
+## User Flow
+
+(*Sign up --> Login --> (Reset Password) --> Dashboard*)
+
+#### 1. Sign-up
+ - Users can create a new account using an email address and password
+ - Firebase Authentication method used `createUserWithEmailAndPassword`
+
+#### 2. Login
+ - Users can log in using the newly created account credentials
+ - Firebase Authentication method used: `signInWithEmailAndPassword`
+
+#### 3. Reset Password
+ - Users can reset their password via a unique password reset link which gets emailed to them
+ - Firebase Authentication method used: `sendPasswordResetEmail`
+
+#### 4. Dashboard
+ - After a successful login users are directed to the dashboard page
+
+## Firebase Methods Used:
+
+`createUserWithEmailAndPassword`
+`signInWithEmailAndPassword`
+`sendPasswordResetEmail`
+
+## Packages Used
+- __Firebase Authentication:__ Secure backend user management and authentication.
+- __Formik:__ Form handling and validation.
+- __Yup:__ Schema-based form validation.
+- __React-router-dom:__ Client-side routing for navigation.
+- __Bootstrap:__ Responsive UI framework.
+- __Popperjs:__ For Bootstrap tooltips and popovers.
+- __Bootstrap Icons:__ Icons for improved UX.
+
+#
+
+Find me on [LinkedIn](https://www.linkedin.com/in/wesley-erasmus-75a72a1ba/) and say hi 👋.

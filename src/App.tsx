@@ -1,12 +1,13 @@
-import './App.css'
+import './styles/App.css';
+// import Home from './pages/Home/Home';
+import routes from './routes';
 
 function App() {
-
   return (
     <>
-     <h1>Authentication User Flow</h1>
+        {routes}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

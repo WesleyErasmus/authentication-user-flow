@@ -1,0 +1,36 @@
+
+/* Page wrapper */
+.loading-spinner-page-wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Spinner background */
+.loading-spinner-bg {
+    z-index: 99998 !important;
+    background: #fff;
+    border-radius: 10%;
+    box-shadow: var(--shadow);
+}
+
+/* Spinner and spinner text */
+.loading-spinner,
+.loading-text {
+    z-index: 99999 !important;
+}
+
+/* Spinner background */
+.modal-backdrop {
+    background: #000000e0 !important;
+}
